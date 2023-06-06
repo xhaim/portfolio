@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="script.js" />
+  </head>
+  <body style="margin: 20px">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <a class="navbar-brand" href="#hero">Chaimae Luminario</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div>
+      <h1 style="margin-top: 70px">
+        TEMPERATURE BASED FAN SPEED CONTROLLER USING ARDUINO
+      </h1>
+      <p style="text-align: justify; text-indent: 30px">
+        A Temperature Based Fan Speed Controller using Arduino is a system that
+        utilizes an Arduino microcontroller and an LM35 temperature sensor to
+        adjust the speed of a fan based on the ambient temperature. The system
+        measures the temperature with the LM35 sensor and then modulates the
+        voltage of a PWM (Pulse Width Modulation) signal to control the speed of
+        a DC fan. This type of system is commonly employed in electronic
+        equipment or home automation systems to maintain desired temperature
+        levels and enhance energy efficiency. The sensed temperature in Celsius
+        scale and the corresponding fan speed in percentage are concurrently
+        displayed on an LCD panel, ensuring user-friendly interaction with the
+        system.
+      </p>
+      <h3>Materials</h3>
+      <ul>
+        <li>Arduino UNO Board</li>
+        <li>LM35 Temperature Sensor</li>
+        <li>12V DC Fan</li>
+        <li>16x2 LCD Display</li>
+        <li>Resistor 1k</li>
+        <li>LED 5mm</li>
+        <li>12V Power Supply/Adapter</li>
+        <li>Connecting Wires</li>
+        <li>Breadboard</li>
+      </ul>
+      <h3>Circuit Diagram</h3>
+      <img src="img/Untitled.png" alt="wiring">
+      <h3>Code</h3>
+      <p style="background-color: black; color:green">#include <LiquidCrystal.h> <br>
+        LiquidCrystal lcd(2,3,4,5,6,7); <br>
+        int tempPin = A1; // the output pin of LM35 <br>
+        int ledfan = 8; // led and fan pin <br>
+        int temp;  <br>
+        int tempMin = 30; // the temperature to start the fan 50% whih is 35C  <br>
+        int tempMax = 40; // the maximum temperature is at 100% which is 40C  <br>
+        int fanSpeed; <br>
+        int fanLCD; <br>
+         
+        void setup() { <br>
+        pinMode(ledfan, OUTPUT); <br>
+        pinMode(tempPin, INPUT); <br>
+        lcd.begin(16,2); <br>
+        Serial.begin(9600); <br>
+        }
+        <br>
+        void loop() <br>
+        { <br>
+        temp = readTemp(); // get the temperature <br>
+        Serial.println( temp ); <br>
+        if(temp < tempMin) // if temp is lower than minimum temp <br>
+        { <br>
+        fanSpeed = 0; // fan is not spinning <br>
+        digitalWrite(ledfan, fanSpeed); <br>
+        fanLCD=0;  <br>
+        digitalWrite(ledfan, LOW); <br>
+        } <br>
+        if((temp >= tempMin) && (temp <= tempMax)) // if temperature is higher than minimum temp  <br>
+        { <br>
+        fanLCD = map(temp, tempMin, tempMax, 0, 100);  <br>
+        } <br>
+         
+        if(temp > tempMax - 6) // if temp is at %50 start fan <br>
+        { <br>
+        digitalWrite(ledfan, HIGH); // turn on led and fan  <br>
+        }  <br>
+        else // else turn of led  <br>
+        {  <br>
+        digitalWrite(ledfan, LOW); <br>
+        } <br>
+         
+        lcd.print("TEMP: ");  <br>
+        lcd.print(temp); // display the temperature  <br>
+        lcd.print("C ");  <br>
+        lcd.setCursor(0,1); // move cursor to next line  <br>
+        lcd.print("PEAK TEMP: ");  <br>
+        lcd.print(fanLCD); // display the fan speed  <br>
+        lcd.print("%");  <br>
+        delay(1000);  <br>
+        lcd.clear();  <br>
+        }  <br>
+         
+        int readTemp() { // get the temperature and convert it to celsius  <br>
+        temp = analogRead(tempPin);  <br>
+        return temp * 0.48828125; 
+        }
+        </p>
+        <h2>OUTPUT</h2>
+        <img src="img/res.jpg" alt="output" style="width: 1325px; height: 500px;">
+      <!-- JavaScript Libraries -->
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+      <script src="script.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+  </body>
+</html>
